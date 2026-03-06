@@ -1,0 +1,95 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'org.jreleaser' version '1.23.0'
+}
+
+group = 'io.github.alde'
+version = '0.1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(24)
+    }
+    withJavadocJar()
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'java-slog'
+                description = 'Structured logging for Java SLF4J'
+                url = 'https://github.com/alde/java-slog'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'alde'
+                        name = 'Rickard Dybeck'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/alde/java-slog.git'
+                    developerConnection = 'scm:git:ssh://github.com/alde/java-slog.git'
+                    url = 'https://github.com/alde/java-slog'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir('staging-deploy')
+        }
+    }
+}
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-api:2.0.16'
+    compileOnly 'ch.qos.logback:logback-classic:1.5.16'
+    compileOnly 'ch.qos.logback:logback-core:1.5.16'
+
+    testImplementation 'ch.qos.logback:logback-classic:1.5.16'
+    testImplementation 'ch.qos.logback:logback-core:1.5.16'
+
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "failed", "skipped"
+    }
+}

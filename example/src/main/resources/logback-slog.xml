@@ -1,0 +1,23 @@
+<included>
+    <!--
+    Include this in your logback.xml:
+      <include resource="logback-slog.xml"/>
+
+    Then reference the appenders:
+      <root level="INFO">
+        <appender-ref ref="SLOG_JSON"/>
+      </root>
+    -->
+
+    <appender name="SLOG_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="io.github.alde.slog.format.JsonEncoder"/>
+    </appender>
+
+    <appender name="SLOG_KV" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="io.github.alde.slog.format.KeyValueEncoder"/>
+    </appender>
+
+    <appender name="SLOG_COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="io.github.alde.slog.format.ColorTextEncoder"/>
+    </appender>
+</included>

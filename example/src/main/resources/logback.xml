@@ -1,0 +1,8 @@
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    <include resource="logback-slog.xml"/>
+
+    <root level="TRACE">
+        <appender-ref ref="SLOG_KV"/>
+    </root>
+</configuration>
