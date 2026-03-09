@@ -101,7 +101,7 @@ INFO[2026-03-06T23:14:28Z] order placed orderId=ord-123 userId=bob amount=4200
 
 ```groovy
 dependencies {
-    implementation 'io.github.alde:java-slog:0.1.0'
+    implementation 'io.github.alde:java-slog:0.1.1'
 
     // Bring your own SLF4J backend
     runtimeOnly 'ch.qos.logback:logback-classic:1.5.16'
@@ -114,7 +114,7 @@ dependencies {
 <dependency>
     <groupId>io.github.alde</groupId>
     <artifactId>java-slog</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 

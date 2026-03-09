@@ -27,8 +27,8 @@ jobs:
       - name: Publish to staging
         run: ./gradlew publish
 
-      - name: Release to Maven Central
-        run: ./gradlew jreleaserFullRelease
+      - name: Deploy to Maven Central
+        run: ./gradlew jreleaserDeploy
         env:
           JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           JRELEASER_MAVENCENTRAL_SONATYPE_TOKEN: ${{ secrets.SONATYPE_TOKEN }}
@@ -36,6 +36,11 @@ jobs:
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
           JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        run: gh release create "${{ github.ref_name }}" --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload JReleaser output
         if: always()
